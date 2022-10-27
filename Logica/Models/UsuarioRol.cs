@@ -17,7 +17,14 @@ namespace Logica.Models
         {
             DataTable R = new DataTable();
 
-            //TODO: Darle funcionalidad
+            //paso 2.1 y 2.2 de seq usuario rol listar
+
+            Conexion MiCnn = new Conexion();
+
+            //paso 2.3 y 2.4
+            //No es necesario explicarlos pasos dentro de EjecutarSelect,
+            //Ya que como se va a usar tantas veces no se vería bien explicarlo.
+            R = MiCnn.EjecutarSelect("SPUsuarioRolListar");
 
 
             return R;
