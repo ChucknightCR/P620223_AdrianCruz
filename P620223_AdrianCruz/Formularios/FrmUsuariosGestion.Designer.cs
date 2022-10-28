@@ -36,7 +36,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
             this.cb_VerActivos = new System.Windows.Forms.CheckBox();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.Dvg_Lista = new System.Windows.Forms.DataGridView();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.panel5 = new System.Windows.Forms.Panel();
             this.cb_Activo = new System.Windows.Forms.CheckBox();
@@ -65,12 +65,18 @@
             this.btn_Limpiar = new System.Windows.Forms.Button();
             this.btn_Cancelar = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.CIDUsuario = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CNombre = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CCedula = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CEmail = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CNombreEmpresa = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CRol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Dvg_Lista)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.panel5.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -90,11 +96,12 @@
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(4);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 3;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 37.8882F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50.50505F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 41.41414F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 46.80135F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.61616F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(783, 594);
             this.tableLayoutPanel1.TabIndex = 0;
+            this.tableLayoutPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel1_Paint);
             // 
             // tableLayoutPanel2
             // 
@@ -102,7 +109,7 @@
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 27F));
             this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel3, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.dataGridView1, 0, 1);
+            this.tableLayoutPanel2.Controls.Add(this.Dvg_Lista, 0, 1);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(4, 4);
             this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(4);
@@ -110,7 +117,7 @@
             this.tableLayoutPanel2.RowCount = 2;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 32.76836F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 67.23164F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(775, 217);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(775, 238);
             this.tableLayoutPanel2.TabIndex = 2;
             this.tableLayoutPanel2.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel2_Paint);
             // 
@@ -127,7 +134,7 @@
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 1;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(767, 63);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(767, 69);
             this.tableLayoutPanel3.TabIndex = 0;
             this.tableLayoutPanel3.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel3_Paint);
             // 
@@ -139,7 +146,7 @@
             this.panel2.Location = new System.Drawing.Point(4, 4);
             this.panel2.Margin = new System.Windows.Forms.Padding(4);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(583, 55);
+            this.panel2.Size = new System.Drawing.Size(583, 61);
             this.panel2.TabIndex = 0;
             // 
             // txt_buscar
@@ -150,6 +157,7 @@
             this.txt_buscar.Name = "txt_buscar";
             this.txt_buscar.Size = new System.Drawing.Size(441, 22);
             this.txt_buscar.TabIndex = 1;
+            this.txt_buscar.TextChanged += new System.EventHandler(this.txt_buscar_TextChanged);
             // 
             // label1
             // 
@@ -170,12 +178,14 @@
             this.panel4.Location = new System.Drawing.Point(595, 4);
             this.panel4.Margin = new System.Windows.Forms.Padding(4);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(168, 55);
+            this.panel4.Size = new System.Drawing.Size(168, 61);
             this.panel4.TabIndex = 1;
             // 
             // cb_VerActivos
             // 
             this.cb_VerActivos.AutoSize = true;
+            this.cb_VerActivos.Checked = true;
+            this.cb_VerActivos.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cb_VerActivos.Location = new System.Drawing.Point(12, 18);
             this.cb_VerActivos.Margin = new System.Windows.Forms.Padding(4);
             this.cb_VerActivos.Name = "cb_VerActivos";
@@ -185,18 +195,30 @@
             this.cb_VerActivos.UseVisualStyleBackColor = true;
             this.cb_VerActivos.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
-            // dataGridView1
+            // Dvg_Lista
             // 
-            this.dataGridView1.AllowUserToDeleteRows = false;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridView1.Location = new System.Drawing.Point(4, 75);
-            this.dataGridView1.Margin = new System.Windows.Forms.Padding(4);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.Size = new System.Drawing.Size(767, 138);
-            this.dataGridView1.TabIndex = 3;
-            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
+            this.Dvg_Lista.AllowUserToAddRows = false;
+            this.Dvg_Lista.AllowUserToDeleteRows = false;
+            this.Dvg_Lista.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.Dvg_Lista.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.CIDUsuario,
+            this.CNombre,
+            this.CCedula,
+            this.CEmail,
+            this.CNombreEmpresa,
+            this.CRol});
+            this.Dvg_Lista.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Dvg_Lista.Location = new System.Drawing.Point(4, 81);
+            this.Dvg_Lista.Margin = new System.Windows.Forms.Padding(4);
+            this.Dvg_Lista.MultiSelect = false;
+            this.Dvg_Lista.Name = "Dvg_Lista";
+            this.Dvg_Lista.ReadOnly = true;
+            this.Dvg_Lista.RowHeadersVisible = false;
+            this.Dvg_Lista.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.Dvg_Lista.Size = new System.Drawing.Size(767, 153);
+            this.Dvg_Lista.TabIndex = 3;
+            this.Dvg_Lista.VirtualMode = true;
+            this.Dvg_Lista.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
             // groupBox1
             // 
@@ -212,9 +234,9 @@
             this.groupBox1.Controls.Add(this.txt_Codigo);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox1.Location = new System.Drawing.Point(3, 228);
+            this.groupBox1.Location = new System.Drawing.Point(3, 249);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(777, 293);
+            this.groupBox1.Size = new System.Drawing.Size(777, 272);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Detalles del usuario";
@@ -300,7 +322,6 @@
             this.txt_contrasenia.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txt_contrasenia.Location = new System.Drawing.Point(83, 16);
             this.txt_contrasenia.Name = "txt_contrasenia";
-            this.txt_contrasenia.ReadOnly = true;
             this.txt_contrasenia.Size = new System.Drawing.Size(172, 26);
             this.txt_contrasenia.TabIndex = 5;
             // 
@@ -318,7 +339,6 @@
             this.txt_Correo.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txt_Correo.Location = new System.Drawing.Point(124, 222);
             this.txt_Correo.Name = "txt_Correo";
-            this.txt_Correo.ReadOnly = true;
             this.txt_Correo.Size = new System.Drawing.Size(227, 26);
             this.txt_Correo.TabIndex = 9;
             this.txt_Correo.TextChanged += new System.EventHandler(this.txt_Correo_TextChanged);
@@ -338,10 +358,10 @@
             this.txt_NombreUsuario.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txt_NombreUsuario.Location = new System.Drawing.Point(124, 177);
             this.txt_NombreUsuario.Name = "txt_NombreUsuario";
-            this.txt_NombreUsuario.ReadOnly = true;
             this.txt_NombreUsuario.Size = new System.Drawing.Size(227, 26);
             this.txt_NombreUsuario.TabIndex = 7;
             this.txt_NombreUsuario.TextChanged += new System.EventHandler(this.txt_NombreUsuario_TextChanged);
+            this.txt_NombreUsuario.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_NombreUsuario_KeyPress_1);
             // 
             // label5
             // 
@@ -358,10 +378,10 @@
             this.txt_Cedula.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txt_Cedula.Location = new System.Drawing.Point(124, 130);
             this.txt_Cedula.Name = "txt_Cedula";
-            this.txt_Cedula.ReadOnly = true;
             this.txt_Cedula.Size = new System.Drawing.Size(227, 26);
             this.txt_Cedula.TabIndex = 5;
             this.txt_Cedula.TextChanged += new System.EventHandler(this.txt_Cedula_TextChanged);
+            this.txt_Cedula.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_Cedula_KeyPress_1);
             // 
             // label4
             // 
@@ -378,10 +398,10 @@
             this.txt_Nombre.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txt_Nombre.Location = new System.Drawing.Point(124, 80);
             this.txt_Nombre.Name = "txt_Nombre";
-            this.txt_Nombre.ReadOnly = true;
             this.txt_Nombre.Size = new System.Drawing.Size(227, 26);
             this.txt_Nombre.TabIndex = 3;
             this.txt_Nombre.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            this.txt_Nombre.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txt_Nombre_KeyPress);
             // 
             // label3
             // 
@@ -457,6 +477,7 @@
             this.btn_agregar.Tag = "";
             this.btn_agregar.Text = "&Agregar";
             this.btn_agregar.UseVisualStyleBackColor = false;
+            this.btn_agregar.Click += new System.EventHandler(this.btn_agregar_Click);
             // 
             // btn_Modificar
             // 
@@ -499,6 +520,7 @@
             this.btn_Limpiar.TabIndex = 3;
             this.btn_Limpiar.Text = "&Limpiar";
             this.btn_Limpiar.UseVisualStyleBackColor = false;
+            this.btn_Limpiar.Click += new System.EventHandler(this.btn_Limpiar_Click);
             // 
             // btn_Cancelar
             // 
@@ -523,10 +545,60 @@
             this.panel1.Size = new System.Drawing.Size(783, 594);
             this.panel1.TabIndex = 1;
             // 
+            // CIDUsuario
+            // 
+            this.CIDUsuario.DataPropertyName = "IDUsuario";
+            this.CIDUsuario.HeaderText = "Código Usuario";
+            this.CIDUsuario.Name = "CIDUsuario";
+            this.CIDUsuario.ReadOnly = true;
+            // 
+            // CNombre
+            // 
+            this.CNombre.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.CNombre.DataPropertyName = "Nombre";
+            this.CNombre.HeaderText = "Nombre";
+            this.CNombre.Name = "CNombre";
+            this.CNombre.ReadOnly = true;
+            // 
+            // CCedula
+            // 
+            this.CCedula.DataPropertyName = "Cedula";
+            this.CCedula.HeaderText = "Cedula";
+            this.CCedula.Name = "CCedula";
+            this.CCedula.ReadOnly = true;
+            // 
+            // CEmail
+            // 
+            this.CEmail.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.CEmail.DataPropertyName = "Email";
+            this.CEmail.HeaderText = "Correo";
+            this.CEmail.Name = "CEmail";
+            this.CEmail.ReadOnly = true;
+            this.CEmail.Width = 150;
+            // 
+            // CNombreEmpresa
+            // 
+            this.CNombreEmpresa.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.CNombreEmpresa.DataPropertyName = "NombreEmpresa";
+            this.CNombreEmpresa.HeaderText = "Empresa";
+            this.CNombreEmpresa.Name = "CNombreEmpresa";
+            this.CNombreEmpresa.ReadOnly = true;
+            this.CNombreEmpresa.Width = 150;
+            // 
+            // CRol
+            // 
+            this.CRol.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.CRol.DataPropertyName = "Rol";
+            this.CRol.HeaderText = "Rol Usuario";
+            this.CRol.Name = "CRol";
+            this.CRol.ReadOnly = true;
+            this.CRol.Width = 150;
+            // 
             // FrmUsuariosGestion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(1243, 735);
             this.Controls.Add(this.panel1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -542,7 +614,7 @@
             this.panel2.PerformLayout();
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Dvg_Lista)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.panel5.ResumeLayout(false);
@@ -558,7 +630,7 @@
 
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView Dvg_Lista;
         private System.Windows.Forms.CheckBox cb_VerActivos;
         private System.Windows.Forms.TextBox txt_buscar;
         private System.Windows.Forms.Label label1;
@@ -593,5 +665,11 @@
         private System.Windows.Forms.ComboBox cbox_Empresa;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.CheckBox cb_Activo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn CIDUsuario;
+        private System.Windows.Forms.DataGridViewTextBoxColumn CNombre;
+        private System.Windows.Forms.DataGridViewTextBoxColumn CCedula;
+        private System.Windows.Forms.DataGridViewTextBoxColumn CEmail;
+        private System.Windows.Forms.DataGridViewTextBoxColumn CNombreEmpresa;
+        private System.Windows.Forms.DataGridViewTextBoxColumn CRol;
     }
 }
