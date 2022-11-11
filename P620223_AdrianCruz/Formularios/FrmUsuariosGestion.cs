@@ -32,6 +32,8 @@ namespace P620223_AdrianCruz.Formularios
             CargarRolesDeUsuario();
             CargarEmpresas();
             LlenarListaUsuarios();
+
+            ActivarAgregar();
         }
 
         private void LlenarListaUsuarios()
@@ -131,10 +133,7 @@ namespace P620223_AdrianCruz.Formularios
 
         }
 
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
+     
 
         private void tableLayoutPanel4_Paint(object sender, PaintEventArgs e)
         {
@@ -250,7 +249,11 @@ namespace P620223_AdrianCruz.Formularios
                         if (Ok)
                         {
                             MessageBox.Show("Usuario agregado correctamente!", ":)", MessageBoxButtons.OK);
-                            LimpiarFormulario();
+                            LimpiarTodo();
+
+                            LlenarListaUsuarios();
+
+
                         }
                         else
                         {
@@ -284,19 +287,43 @@ namespace P620223_AdrianCruz.Formularios
             }
 
         }
-        private bool ValidarCamposRequeridos()
+        private bool ValidarCamposRequeridos(bool OmitirContrasennia = false)
         {
             bool R = false;
 
             if (!string.IsNullOrEmpty(txt_Nombre.Text.Trim()) &&
                 !string.IsNullOrEmpty(txt_Cedula.Text.Trim()) &&
                 !string.IsNullOrEmpty(txt_NombreUsuario.Text.Trim()) &&
-                !string.IsNullOrEmpty(txt_Correo.Text.Trim()) &&
-                !string.IsNullOrEmpty(txt_contrasenia.Text.Trim()) &&
+                !string.IsNullOrEmpty(txt_Correo.Text.Trim()) &&                
                 cbox_Empresa.SelectedIndex > -1 &&
                 cbox_RolUsuario.SelectedIndex > -1)
 
             {
+
+                if (OmitirContrasennia)
+                {
+                    R = true;
+                }
+                else
+                {
+                    if (!string.IsNullOrEmpty(txt_contrasenia.Text.Trim()))
+                    {
+                        R = true;
+                    }
+                    else
+                    {
+                        if (string.IsNullOrEmpty(txt_contrasenia.Text.Trim()))
+                        {
+                            MessageBox.Show("Debe digitar la contraseña", "Error de validación", MessageBoxButtons.OK);
+                            txt_contrasenia.Focus();
+                            return false;
+                        }
+                    }
+                }
+
+            
+
+
                 R = true;
             }
             else
@@ -332,12 +359,7 @@ namespace P620223_AdrianCruz.Formularios
                     return false;
                 }
 
-                if (string.IsNullOrEmpty(txt_contrasenia.Text.Trim()))
-                {
-                    MessageBox.Show("Debe digitar la contraseña", "Error de validación", MessageBoxButtons.OK);
-                    txt_contrasenia.Focus();
-                    return false;
-                }
+              
 
                 //Validaciones de ComboBox
                 if (cbox_Empresa.SelectedIndex == -1)
@@ -364,7 +386,31 @@ namespace P620223_AdrianCruz.Formularios
 
         private void btn_Limpiar_Click(object sender, EventArgs e)
         {
+            LimpiarTodo();
+        }
+
+        private void LimpiarTodo()
+        {
             LimpiarFormulario();
+
+            Dvg_Lista.ClearSelection();
+            MiUsuarioLocal = new Logica.Models.Usuario();
+            ActivarAgregar();
+
+        }
+
+        private void ActivarAgregar()
+        {
+            btn_agregar.Enabled = true;
+            btn_Eliminar.Enabled = false;
+            btn_Modificar.Enabled = false;
+
+        }
+        private void ActivarModificarEliminar()
+        {
+            btn_agregar.Enabled = false;
+            btn_Eliminar.Enabled = true;
+            btn_Modificar.Enabled = true;
         }
         private void LimpiarFormulario()
         {
@@ -377,6 +423,8 @@ namespace P620223_AdrianCruz.Formularios
 
             cbox_RolUsuario.SelectedIndex = -1;
             cbox_Empresa.SelectedIndex = -1;
+
+            
         }
 
         private void txt_Nombre_KeyPress(object sender, KeyPressEventArgs e)
@@ -413,5 +461,170 @@ namespace P620223_AdrianCruz.Formularios
                 LlenarListaUsuarios();
             }
         }
+
+        private void Dvg_Lista_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            Dvg_Lista.ClearSelection();
+        }
+
+        private void Dvg_Lista_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            //Cuando se selecciona un item de la lista se deben mostrar los datos
+            //en los campos del formulario. En este etado se puede cambiar la info y
+            //actualizar o eliminar un usuario
+
+            if(Dvg_Lista.SelectedRows.Count ==1)
+            {
+                LimpiarFormulario();
+
+                DataGridViewRow MiFila = Dvg_Lista.SelectedRows[0];
+
+                int IdUsuario = Convert.ToInt32(MiFila.Cells["CIDUsuario"].Value);
+
+                MiUsuarioLocal = new Logica.Models.Usuario();
+
+                MiUsuarioLocal.IdUsuario = IdUsuario;
+
+                //Una vez tenemos el valor del id del usuario, se llama la funcion
+                //de consultar por id, que entrega como retorno un objeto de 
+                //tipo usuario
+                //En este caso voy a reutilizar el objeto de usuario local para
+                //cargar datos por medio de la funcion
+
+                MiUsuarioLocal = MiUsuarioLocal.ConsultarPorID();
+
+                if(MiUsuarioLocal != null && MiUsuarioLocal.IdUsuario >0)
+                {
+                    //Una vez me aseguro que el objeto tiene datos
+                    //Entonces se representan en pantalla
+
+                    txt_Codigo.Text = MiUsuarioLocal.IdUsuario.ToString();
+                    txt_Nombre.Text = MiUsuarioLocal.Nombre;
+                    txt_Cedula.Text = MiUsuarioLocal.Cedula;
+                    txt_NombreUsuario.Text = MiUsuarioLocal.nombreUsuario;
+                    txt_Correo.Text = MiUsuarioLocal.Email;
+
+                    cbox_RolUsuario.SelectedValue = MiUsuarioLocal.MiRol.IdUsuarioRol;
+                    cbox_Empresa.SelectedValue = MiUsuarioLocal.MiEmpresa.IDEmpresa;
+
+                    cb_Activo.Checked = MiUsuarioLocal.Activo;
+
+                    //TODO: Inhabilitar el botón de agregar ya que no tiene sentido que
+                    //funcione
+
+                    ActivarModificarEliminar();
+                }
+
+            }
+        }
+
+        private void btn_Modificar_Click(object sender, EventArgs e)
+        {
+            //Se deben validar los datos mínimos
+
+            if(ValidarCamposRequeridos(true))
+            {
+
+                MiUsuarioLocal.Nombre = txt_Nombre.Text.Trim();
+                MiUsuarioLocal.Cedula = txt_Cedula.Text.Trim();
+                MiUsuarioLocal.nombreUsuario = txt_NombreUsuario.Text.Trim();
+                MiUsuarioLocal.Email = txt_Correo.Text.Trim();
+                MiUsuarioLocal.Contrasennia = txt_contrasenia.Text.Trim();
+
+                MiUsuarioLocal.MiRol.IdUsuarioRol = Convert.ToInt32(cbox_RolUsuario.SelectedValue);
+                MiUsuarioLocal.MiEmpresa.IDEmpresa = Convert.ToInt32(cbox_Empresa.SelectedValue);
+
+                if(MiUsuarioLocal.ConsultarPorID(MiUsuarioLocal.IdUsuario))
+                {
+                    DialogResult Respuesta = MessageBox.Show("¿Seguro de modificar el usuario?", "???", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                    if(Respuesta == DialogResult.Yes)
+                    {
+                        if(MiUsuarioLocal.Modificar())
+                        {
+                            MessageBox.Show("Usuario Modificado!", ":)",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            LimpiarTodo();
+
+                            LlenarListaUsuarios();
+                        }
+                    }
+                }
+
+            }
+        }
+
+        private void Dvg_Lista_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btn_Eliminar_Click(object sender, EventArgs e)
+        {
+        
+            if(cb_VerActivos.Checked)
+            {
+                DialogResult Respuesta = MessageBox.Show("¿Seguro de eliminar al usuario?", "???",
+                           MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (Respuesta == DialogResult.Yes)
+                {
+                    if (MiUsuarioLocal.Eliminar())
+                    {
+                        MessageBox.Show("Usuario eliminado correctamenet!", ":)",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        LimpiarTodo();
+                        LlenarListaUsuarios();
+                    }
+                }
+            }
+            else
+            {
+
+                DialogResult Respuesta = MessageBox.Show("¿Seguro de activar al usuario?", "???",
+                           MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (Respuesta == DialogResult.Yes)
+                {
+                    if (MiUsuarioLocal.Activar())
+                    {
+                        MessageBox.Show("Usuario activado correctamenet!", ":)",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        LimpiarTodo();
+                        LlenarListaUsuarios();
+                    }
+                }
+            }
+
+                
+               
+            }
+        
+
+
+
+        private void cb_VerActivos_CheckedChanged(object sender, EventArgs e)
+        {
+            LlenarListaUsuarios();
+
+            if(cb_VerActivos.Checked)
+            {
+                btn_Eliminar.Text = "Eliminar";
+                
+            }
+            else
+            {
+                btn_Eliminar.Text = "Activar";
+            }
+        }
+
+
+
+
+
+
+
     }
-}
+    }
+
+

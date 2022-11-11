@@ -46,6 +46,7 @@ namespace Logica.Models
             MiCnn.ListaParametros.Add(new SqlParameter("@IDRol", this.MiRol.IdUsuarioRol));
             MiCnn.ListaParametros.Add(new SqlParameter("@IDEmpresa", this.MiEmpresa.IDEmpresa));
 
+            
             int Resultad = MiCnn.EjecutarUpdateDeleteInsert("SPUsuarioAgregar");
             if (Resultad > 0)
             {
@@ -63,6 +64,29 @@ namespace Logica.Models
             //TODO: Ejecutar un SP que contenga la instrucción Update correspondiente
             // y retornar true si todo sale bien
 
+            Conexion MiCnn = new Conexion();
+
+            //Lista de parámetros para el insert
+            MiCnn.ListaParametros.Add(new SqlParameter("@Nombre", this.Nombre));
+            MiCnn.ListaParametros.Add(new SqlParameter("@Cedula", this.Cedula));
+            MiCnn.ListaParametros.Add(new SqlParameter("@NombreUsuario", this.nombreUsuario));
+
+            //TODO: Se debe encriptar la contraseña que se va a almacenar en la tabla usuario
+            MiCnn.ListaParametros.Add(new SqlParameter("@Contrasennia", this.Contrasennia));
+            MiCnn.ListaParametros.Add(new SqlParameter("@Email", this.Email));
+
+            //Parametros para los FKs, normalmente son de objetos compuestos de la clase
+            MiCnn.ListaParametros.Add(new SqlParameter("@IDRol", this.MiRol.IdUsuarioRol));
+            MiCnn.ListaParametros.Add(new SqlParameter("@IDEmpresa", this.MiEmpresa.IDEmpresa));
+
+            MiCnn.ListaParametros.Add(new SqlParameter("@ID", this.IdUsuario));
+
+            int Resultad = MiCnn.EjecutarUpdateDeleteInsert("SPUsuarioModificar");
+            if (Resultad > 0)
+            {
+                R = true;
+            }
+
 
             return R;
 
@@ -76,9 +100,43 @@ namespace Logica.Models
 
             bool R = false;
 
-            //TODO: Ejecutar un SP que contenga la instrucción DELETE correspondiente
-            // y retornar true si todo sale bien
+            Conexion MiCnn = new Conexion();
 
+            //Lista de parámetros para el insert
+            
+
+            MiCnn.ListaParametros.Add(new SqlParameter("@ID", this.IdUsuario));
+
+            int Resultad = MiCnn.EjecutarUpdateDeleteInsert("SPUsuarioEliminar");
+            if (Resultad > 0)
+            {
+                R = true;
+            }
+
+            return R;
+
+
+        }
+
+        public bool Activar()
+        {
+            //En las eliminaciones lógicas, lo que haremos será cambiar el valor
+            //campo activo a 0 (false)
+
+            bool R = false;
+
+            Conexion MiCnn = new Conexion();
+
+            //Lista de parámetros para el insert
+
+
+            MiCnn.ListaParametros.Add(new SqlParameter("@ID", this.IdUsuario));
+
+            int Resultad = MiCnn.EjecutarUpdateDeleteInsert("SPUsuarioActivar");
+            if (Resultad > 0)
+            {
+                R = true;
+            }
 
             return R;
 
@@ -90,13 +148,60 @@ namespace Logica.Models
 
             Usuario R = new Usuario();
 
-           
+            Conexion MyCnn = new Conexion();
+
+            MyCnn.ListaParametros.Add(new SqlParameter("@ID", this.IdUsuario));
+
+            DataTable DataUsuario = new DataTable();
+            DataUsuario = MyCnn.EjecutarSelect("SPUsuarioConsultarPorId");
+
+            //Una vez tenemos un datatable con la data procedemos a llenar
+            //las propiedades del objeto de retorno.
+
+            if (DataUsuario != null && DataUsuario.Rows.Count >0)
+            {
+                DataRow Fila = DataUsuario.Rows[0];
+
+                R.IdUsuario = Convert.ToInt32(Fila["IDUsuario"]);
+                R.Nombre = Convert.ToString(Fila["Nombre"]);
+                R.Cedula = Convert.ToString(Fila["Cedula"]);
+                R.nombreUsuario = Convert.ToString(Fila["NombreUsuario"]);
+                R.Email = Convert.ToString(Fila["Email"]);
+                R.Contrasennia = String.Empty;
+                R.MiRol.IdUsuarioRol = Convert.ToInt32(Fila["IDUsuarioRol"]);
+                R.MiEmpresa.IDEmpresa = Convert.ToInt32(Fila["IDEmpresa"]);
+                R.Activo = Convert.ToBoolean(Fila["Activo"]);
+            }
 
 
             return R;
 
 
         }
+        public bool ConsultarPorID(int pIDUsuario)
+        {
+
+            bool R = false;
+
+            Conexion MyCnn = new Conexion();
+
+            MyCnn.ListaParametros.Add(new SqlParameter("@ID", pIDUsuario));
+
+            DataTable DataUsuario = new DataTable();
+            DataUsuario = MyCnn.EjecutarSelect("SPUsuarioConsultarPorId");
+
+
+            if (DataUsuario != null && DataUsuario.Rows.Count > 0)
+            {
+                R = true;
+            }
+
+
+            return R;
+
+
+        }
+
 
         public bool ConsultarPorcedula()
         {
