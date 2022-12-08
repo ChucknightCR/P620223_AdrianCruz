@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Text;
@@ -77,13 +78,30 @@ namespace Logica.Models
 
         public Cliente ConsultarPorID()
         {
-           
+           Cliente R = new Cliente();
 
-            Cliente R = new Cliente();
+            Conexion MyCnn = new Conexion();
 
-            //TODO: En este caso el retorno es del mismo tipio de la clase.
-            //por lo tanto hay que llenar los atributos con los datos
-            // que entregue un SP SELECT
+            MyCnn.ListaParametros.Add(new SqlParameter("@ID", this.IDCliente));
+
+            DataTable DataCliente = new DataTable();
+            DataCliente = MyCnn.EjecutarSelect("SPClienteConsultarPorId");
+
+            //Una vez tenemos un datatable con la data procedemos a llenar
+            //las propiedades del objeto de retorno.
+
+            if (DataCliente != null && DataCliente.Rows.Count >0)
+            {
+                DataRow Fila = DataCliente.Rows[0];
+
+                R.IDCliente = Convert.ToInt32(Fila["IDCliente"]);
+                R.Cedula = Convert.ToString(Fila["Cedula"]);
+                R.Nombre = Convert.ToString(Fila["Nombre"]);               
+                R.CorreoElectronico = Convert.ToString(Fila["CorreoElectronico"]);
+                R.Telefono = Convert.ToString(Fila["Telefono"]);
+                R.Direccion = Convert.ToString(Fila["Direccion"]);
+                R.Activo = Convert.ToBoolean(Fila["Activo"]);
+            }
 
 
             return R;

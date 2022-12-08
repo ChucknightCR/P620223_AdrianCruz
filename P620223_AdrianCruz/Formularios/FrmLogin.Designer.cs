@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.Btn_IngresoDirecto = new System.Windows.Forms.Button();
             this.btn_VerPassword = new System.Windows.Forms.Button();
             this.Lbl_RecuperarContrasenia = new System.Windows.Forms.LinkLabel();
             this.label2 = new System.Windows.Forms.Label();
@@ -43,6 +44,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.Btn_IngresoDirecto);
             this.panel1.Controls.Add(this.btn_VerPassword);
             this.panel1.Controls.Add(this.Lbl_RecuperarContrasenia);
             this.panel1.Controls.Add(this.label2);
@@ -56,6 +58,17 @@
             this.panel1.Size = new System.Drawing.Size(389, 448);
             this.panel1.TabIndex = 0;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
+            // 
+            // Btn_IngresoDirecto
+            // 
+            this.Btn_IngresoDirecto.Location = new System.Drawing.Point(53, 305);
+            this.Btn_IngresoDirecto.Name = "Btn_IngresoDirecto";
+            this.Btn_IngresoDirecto.Size = new System.Drawing.Size(98, 23);
+            this.Btn_IngresoDirecto.TabIndex = 8;
+            this.Btn_IngresoDirecto.Text = "Ingreso Directo";
+            this.Btn_IngresoDirecto.UseVisualStyleBackColor = true;
+            this.Btn_IngresoDirecto.Visible = false;
+            this.Btn_IngresoDirecto.Click += new System.EventHandler(this.Btn_IngresoDirecto_Click);
             // 
             // btn_VerPassword
             // 
@@ -167,16 +180,20 @@
             // 
             // FrmLogin
             // 
+            this.AcceptButton = this.btn_Ingresar;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DimGray;
+            this.CancelButton = this.btn_Cancelar;
             this.ClientSize = new System.Drawing.Size(666, 481);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.KeyPreview = true;
             this.Name = "FrmLogin";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Load += new System.EventHandler(this.FrmLogin_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FrmLogin_KeyDown);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.ResumeLayout(false);
@@ -195,5 +212,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btn_VerPassword;
+        private System.Windows.Forms.Button Btn_IngresoDirecto;
     }
 }

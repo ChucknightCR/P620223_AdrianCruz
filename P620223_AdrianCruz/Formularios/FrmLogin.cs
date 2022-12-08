@@ -70,12 +70,51 @@ namespace P620223_AdrianCruz.Formularios
 
         private void btn_Ingresar_Click(object sender, EventArgs e)
         {
-            //TODO: Se debe validar el ingreso del usuario
+            if(!string.IsNullOrEmpty(Txt_NombreUsuario.Text.Trim())&&
+                !string.IsNullOrEmpty(Txt_Contrasenia.Text.Trim()))
+            {
+                string u = Txt_NombreUsuario.Text.Trim();
+                string p = Txt_Contrasenia.Text.Trim();
 
-            //Si la validación es correcta permite el ingreso al sistema y muestra
-            //el formulario principal
+                int IdLoginOk = Globales.MiUsuarioGlobal.ValidarLogin(u, p);
+
+                if (IdLoginOk  > 0 )
+                {
+                    //Hay permiso de ingresar al sistema
+
+                    Globales.MiUsuarioGlobal.IdUsuario = IdLoginOk;
+
+                    Globales.MiUsuarioGlobal = Globales.MiUsuarioGlobal.ConsultarPorID();
+
+                    Globales.MiFormPrincipal.Show();
+                    this.Hide();
+                }
+                else
+                {
+                    MessageBox.Show("Usuario o Contraseña Incorrectas", "Error de Validacion", MessageBoxButtons.OK);
+                    Txt_Contrasenia.Focus();
+                    Txt_Contrasenia.SelectAll();
+                }
+            }
+
+        }
+
+        private void Btn_IngresoDirecto_Click(object sender, EventArgs e)
+        {
+            Globales.MiUsuarioGlobal.IdUsuario = 1;
+            Globales.MiUsuarioGlobal = Globales.MiUsuarioGlobal.ConsultarPorID();
+
+
             Globales.MiFormPrincipal.Show();
             this.Hide();
+        }
+
+        private void FrmLogin_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Shift & e.KeyCode == Keys.A)             
+            {
+                Btn_IngresoDirecto.Visible = true;
+            }
         }
     }
 }

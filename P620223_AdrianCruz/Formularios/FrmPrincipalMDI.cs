@@ -20,6 +20,46 @@ namespace P620223_AdrianCruz.Formularios
         private void FrmPrincipalMDI_Load(object sender, EventArgs e)
         {
 
+            string InfoUsuario = string.Format("{0}({1})",
+                Globales.MiUsuarioGlobal.Nombre,
+                Globales.MiUsuarioGlobal.MiRol.Rol);
+
+            LblUsuarioLogueado.Text = Globales.MiUsuarioGlobal.Nombre;
+
+            switch(Globales.MiUsuarioGlobal.MiRol.IdUsuarioRol)
+            {
+                case 1:
+                    //admin
+
+                    break;
+                case 2:
+                    //Bodeguero
+                    MnuProcesos.Visible = false;
+
+                    MnuUsuariosGestion.Visible = false;
+                    MnuImpuestosGestion.Visible = false;
+                    MnuClientesGestion.Visible = false;
+
+                    MnuListadoClientes.Visible = false;
+                    MnuReimpresionFacturas.Visible = false;
+                    MnuVentasCliente.Visible = false;
+                    MnuVentasRangoFechas.Visible = false;
+                    MnuVentasUsuario.Visible = false;
+                    break;
+                case 3:
+                    //Facturador
+
+                    MnuUsuariosGestion.Visible = false;
+                    MnuImpuestosGestion.Visible = false;
+                    MnuClientesGestion.Visible = false;
+                    MnuCategoriasGestion.Visible = false;
+                    MnuProveedoresGestion.Visible = false;
+
+                    MnuListadoProveedores.Visible = false;
+
+                    break;
+            }
+            TmrFechaHora.Enabled = true;
         }
 
         private void FrmPrincipalMDI_FormClosed(object sender, FormClosedEventArgs e)
@@ -50,6 +90,17 @@ namespace P620223_AdrianCruz.Formularios
 
 
 
+        }
+
+        private void TmrFechaHora_Tick(object sender, EventArgs e)
+        {
+            //Asignar al label de fecha y hora el valor en formato extendido de la fecha
+            //y además la hora
+
+            string fecha = DateTime.Now.Date.ToLongDateString();
+            string hora = DateTime.Now.ToLongTimeString();
+
+            LblFechaYHora.Text = fecha + "/" + hora;
         }
     }
 }

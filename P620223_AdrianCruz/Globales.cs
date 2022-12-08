@@ -19,5 +19,8 @@ namespace P620223_AdrianCruz
         public static Form MiFormPrincipal = new Formularios.FrmPrincipalMDI();
 
         public static Formularios.FrmUsuariosGestion MiFormMantenimientoUsuarios = new Formularios.FrmUsuariosGestion();
+
+        public static Logica.Models.Usuario MiUsuarioGlobal = new Logica.Models.Usuario();
+
     }
 }
