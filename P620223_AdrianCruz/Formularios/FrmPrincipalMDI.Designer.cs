@@ -159,8 +159,10 @@
             // MnuFacturacionGestion
             // 
             this.MnuFacturacionGestion.Name = "MnuFacturacionGestion";
-            this.MnuFacturacionGestion.Size = new System.Drawing.Size(159, 26);
+            this.MnuFacturacionGestion.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.F)));
+            this.MnuFacturacionGestion.Size = new System.Drawing.Size(213, 26);
             this.MnuFacturacionGestion.Text = "Facturación";
+            this.MnuFacturacionGestion.Click += new System.EventHandler(this.MnuFacturacionGestion_Click);
             // 
             // MnuReportes
             // 

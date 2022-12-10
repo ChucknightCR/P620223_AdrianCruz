@@ -102,5 +102,14 @@ namespace P620223_AdrianCruz.Formularios
 
             LblFechaYHora.Text = fecha + "/" + hora;
         }
+
+        private void MnuFacturacionGestion_Click(object sender, EventArgs e)
+        {
+            if(!Globales.MiFormFacturacion.Visible)
+            {
+                Globales.MiFormFacturacion = new FrmFacturacion();
+                Globales.MiFormFacturacion.Show();
+            }
+        }
     }
 }

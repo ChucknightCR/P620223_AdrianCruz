@@ -54,5 +54,20 @@ namespace Logica.Models
             return R;
         }
 
+        public DataTable CargarEsquemaListaDetalle()
+        {
+            DataTable R = new DataTable();
+
+            Conexion MiCnn = new Conexion();
+
+            R = MiCnn.EjecutarSelect("SPFacturaDetalleEsquema", true);
+
+            R.PrimaryKey = null;
+
+            return R;
+
+        }
+
+
     }
 }

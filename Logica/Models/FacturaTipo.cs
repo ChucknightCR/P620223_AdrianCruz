@@ -17,7 +17,9 @@ namespace Logica.Models
         {
             DataTable R = new DataTable();
 
-            //TODO: Darle funcionalidad
+            Conexion MiCnn = new Conexion();
+
+            R = MiCnn.EjecutarSelect("SPFacturaTipoListar");
 
 
             return R;

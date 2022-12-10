@@ -76,13 +76,13 @@ namespace Logica.Models
 
         }
 
-        public Cliente ConsultarPorID()
+        public Cliente ConsultarPorID(int PIdCliente)
         {
            Cliente R = new Cliente();
 
             Conexion MyCnn = new Conexion();
 
-            MyCnn.ListaParametros.Add(new SqlParameter("@ID", this.IDCliente));
+            MyCnn.ListaParametros.Add(new SqlParameter("@ID", PIdCliente));
 
             DataTable DataCliente = new DataTable();
             DataCliente = MyCnn.EjecutarSelect("SPClienteConsultarPorId");
@@ -125,11 +125,16 @@ namespace Logica.Models
 
         }
 
-        public DataTable Listar(bool VerActivos = true)
+        public DataTable Listar(bool VerActivos = true, string Filtro = "")
         {
             DataTable R = new DataTable();
 
-            //TODO: Usar SP con parámetro para ver proveedores eliminados o activos
+            Conexion MiCnn = new Conexion();
+
+            MiCnn.ListaParametros.Add(new SqlParameter("@VerActivos", VerActivos));
+            MiCnn.ListaParametros.Add(new SqlParameter("@FiltroBusqueda", Filtro));
+
+            R = MiCnn.EjecutarSelect("SPClienteListar");
 
 
             return R;

@@ -22,5 +22,6 @@ namespace P620223_AdrianCruz
 
         public static Logica.Models.Usuario MiUsuarioGlobal = new Logica.Models.Usuario();
 
+        public static Formularios.FrmFacturacion MiFormFacturacion = new Formularios.FrmFacturacion();
     }
 }
