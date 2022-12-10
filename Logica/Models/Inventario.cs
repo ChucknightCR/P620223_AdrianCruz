@@ -99,6 +99,9 @@ namespace Logica.Models
         public DataTable Listar(bool VerActivos = true)
         {
             DataTable R = new DataTable();
+            Conexion MyCnn = new Conexion();
+
+            R = MyCnn.EjecutarSelect("SPInventarioListar");
 
             return R;
         }

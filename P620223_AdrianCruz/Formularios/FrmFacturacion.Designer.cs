@@ -221,6 +221,7 @@
             this.MnuAgregarItem.Name = "MnuAgregarItem";
             this.MnuAgregarItem.Size = new System.Drawing.Size(129, 21);
             this.MnuAgregarItem.Text = "Agregar Producto";
+            this.MnuAgregarItem.Click += new System.EventHandler(this.MnuAgregarItem_Click);
             // 
             // MnuModificarItem
             // 
@@ -361,7 +362,7 @@
             // CIDInventario
             // 
             this.CIDInventario.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.CIDInventario.DataPropertyName = "CIDInventario";
+            this.CIDInventario.DataPropertyName = "IDInventario";
             this.CIDInventario.HeaderText = "COD.";
             this.CIDInventario.Name = "CIDInventario";
             this.CIDInventario.ReadOnly = true;
@@ -369,7 +370,7 @@
             // CNombreItem
             // 
             this.CNombreItem.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.CNombreItem.DataPropertyName = "CNombreItem";
+            this.CNombreItem.DataPropertyName = "NombreItem";
             this.CNombreItem.HeaderText = "Item";
             this.CNombreItem.Name = "CNombreItem";
             this.CNombreItem.ReadOnly = true;
@@ -377,7 +378,7 @@
             // CPrecioVenta
             // 
             this.CPrecioVenta.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.CPrecioVenta.DataPropertyName = "CPrecioVenta";
+            this.CPrecioVenta.DataPropertyName = "PrecioVenta";
             this.CPrecioVenta.HeaderText = "Precio";
             this.CPrecioVenta.Name = "CPrecioVenta";
             this.CPrecioVenta.ReadOnly = true;
@@ -386,7 +387,7 @@
             // CCantidad
             // 
             this.CCantidad.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.CCantidad.DataPropertyName = "CCantidad";
+            this.CCantidad.DataPropertyName = "Cantidad";
             this.CCantidad.HeaderText = "Cantidad";
             this.CCantidad.Name = "CCantidad";
             this.CCantidad.ReadOnly = true;
@@ -395,7 +396,7 @@
             // CTasaImpuesto
             // 
             this.CTasaImpuesto.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.CTasaImpuesto.DataPropertyName = "CTasaImpuesto";
+            this.CTasaImpuesto.DataPropertyName = "TasaImpuesto";
             this.CTasaImpuesto.HeaderText = "% IVA";
             this.CTasaImpuesto.Name = "CTasaImpuesto";
             this.CTasaImpuesto.ReadOnly = true;
@@ -404,7 +405,7 @@
             // CPorcentajeDescuento
             // 
             this.CPorcentajeDescuento.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.CPorcentajeDescuento.DataPropertyName = "CPorcentajeDescuento";
+            this.CPorcentajeDescuento.DataPropertyName = "PorcentajeDescuento";
             this.CPorcentajeDescuento.HeaderText = "% Descuento";
             this.CPorcentajeDescuento.Name = "CPorcentajeDescuento";
             this.CPorcentajeDescuento.ReadOnly = true;
@@ -413,7 +414,7 @@
             // CSubTotal
             // 
             this.CSubTotal.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.CSubTotal.DataPropertyName = "CSubTotal";
+            this.CSubTotal.DataPropertyName = "SubTotal";
             this.CSubTotal.HeaderText = "SubTotal";
             this.CSubTotal.Name = "CSubTotal";
             this.CSubTotal.ReadOnly = true;
@@ -422,7 +423,7 @@
             // CDescuentoTotal
             // 
             this.CDescuentoTotal.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.CDescuentoTotal.DataPropertyName = "CDescuentoTotal";
+            this.CDescuentoTotal.DataPropertyName = "DescuentoTotal";
             this.CDescuentoTotal.HeaderText = "Desc Total";
             this.CDescuentoTotal.Name = "CDescuentoTotal";
             this.CDescuentoTotal.ReadOnly = true;
@@ -431,7 +432,7 @@
             // CSubTotal2
             // 
             this.CSubTotal2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.CSubTotal2.DataPropertyName = "CSubTotal2";
+            this.CSubTotal2.DataPropertyName = "SubTotal2";
             this.CSubTotal2.HeaderText = "Sub Total 2";
             this.CSubTotal2.Name = "CSubTotal2";
             this.CSubTotal2.ReadOnly = true;
@@ -440,7 +441,7 @@
             // CImpuestosTotal
             // 
             this.CImpuestosTotal.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.CImpuestosTotal.DataPropertyName = "CImpuestosTotal";
+            this.CImpuestosTotal.DataPropertyName = "ImpuestosTotal";
             this.CImpuestosTotal.HeaderText = "Total IVA";
             this.CImpuestosTotal.Name = "CImpuestosTotal";
             this.CImpuestosTotal.ReadOnly = true;
@@ -449,7 +450,7 @@
             // CTotalLinea
             // 
             this.CTotalLinea.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.CTotalLinea.DataPropertyName = "CTotalLinea";
+            this.CTotalLinea.DataPropertyName = "TotalLinea";
             this.CTotalLinea.HeaderText = "TOTAL";
             this.CTotalLinea.Name = "CTotalLinea";
             this.CTotalLinea.ReadOnly = true;

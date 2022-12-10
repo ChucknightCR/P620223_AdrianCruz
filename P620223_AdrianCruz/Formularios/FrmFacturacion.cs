@@ -100,5 +100,17 @@ namespace P620223_AdrianCruz.Formularios
 
             }
         }
+
+        private void MnuAgregarItem_Click(object sender, EventArgs e)
+        {
+            Form FormBuscarItem = new FrmInventarioBuscar();
+            DialogResult resp = FormBuscarItem.ShowDialog();
+            if (resp ==DialogResult.OK)
+            {
+                //TODO: Totalizar 
+                DgvLista.DataSource = DtListaItems;
+            }
+
+        }
     }
 }
