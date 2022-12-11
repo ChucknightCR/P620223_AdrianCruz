@@ -67,39 +67,37 @@ namespace Logica.Models
         public bool Modificar()
         {
             bool R = false;
-            //TODO: Ejecutar un SP que contenga la instrucción Update correspondiente
-            // y retornar true si todo sale bien
+            //TODO: ejecutar un SP que contenga la instruccion
+            //UPDATE correspondiente y retornar true si
+            //todo sale bien 
 
             Conexion MiCnn = new Conexion();
 
-            //Lista de parámetros para el insert
+            //lista de parámetros para el insert
             MiCnn.ListaParametros.Add(new SqlParameter("@Nombre", this.Nombre));
             MiCnn.ListaParametros.Add(new SqlParameter("@Cedula", this.Cedula));
             MiCnn.ListaParametros.Add(new SqlParameter("@NombreUsuario", this.nombreUsuario));
-            Crypto MiEncriptador = new Crypto();
 
+            Crypto MiEncriptador = new Crypto();
             string ContrasenniaEncriptada = MiEncriptador.EncriptarEnUnSentido(this.Contrasennia);
             MiCnn.ListaParametros.Add(new SqlParameter("@Contrasennia", ContrasenniaEncriptada));
 
-            MiCnn.ListaParametros.Add(new SqlParameter("@Contrasennia", this.Contrasennia));
             MiCnn.ListaParametros.Add(new SqlParameter("@Email", this.Email));
 
-            //Parametros para los FKs, normalmente son de objetos compuestos de la clase
+            //Parametros para los FKs, normalmente son de objetos compuestos de la clase 
             MiCnn.ListaParametros.Add(new SqlParameter("@IDRol", this.MiRol.IdUsuarioRol));
             MiCnn.ListaParametros.Add(new SqlParameter("@IDEmpresa", this.MiEmpresa.IDEmpresa));
 
             MiCnn.ListaParametros.Add(new SqlParameter("@ID", this.IdUsuario));
 
-            int Resultad = MiCnn.EjecutarUpdateDeleteInsert("SPUsuarioModificar");
-            if (Resultad > 0)
+            int Resultado = MiCnn.EjecutarUpdateDeleteInsert("SPUsuarioModificar");
+
+            if (Resultado > 0)
             {
                 R = true;
             }
 
-
             return R;
-
-
         }
 
         public bool Eliminar()

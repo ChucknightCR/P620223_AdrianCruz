@@ -101,6 +101,7 @@
             this.BtnSeleccionar.TabIndex = 3;
             this.BtnSeleccionar.Text = "Seleccionar";
             this.BtnSeleccionar.UseVisualStyleBackColor = false;
+            this.BtnSeleccionar.Click += new System.EventHandler(this.BtnSeleccionar_Click_1);
             // 
             // BtnCancelar
             // 
@@ -114,6 +115,7 @@
             this.BtnCancelar.TabIndex = 4;
             this.BtnCancelar.Text = "Cancelar";
             this.BtnCancelar.UseVisualStyleBackColor = false;
+            this.BtnCancelar.Click += new System.EventHandler(this.BtnCancelar_Click_1);
             // 
             // panel1
             // 
@@ -155,6 +157,7 @@
             this.TxtDescuento.Text = "0";
             this.TxtDescuento.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.TxtDescuento.TextChanged += new System.EventHandler(this.TxtDescuento_TextChanged);
+            this.TxtDescuento.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtDescuento_KeyPress_1);
             this.TxtDescuento.Leave += new System.EventHandler(this.TxtDescuento_Leave);
             // 
             // NudCantidad
@@ -179,6 +182,7 @@
             0,
             0,
             0});
+            this.NudCantidad.ValueChanged += new System.EventHandler(this.NudCantidad_ValueChanged_1);
             this.NudCantidad.Leave += new System.EventHandler(this.NudCantidad_Leave);
             // 
             // label2

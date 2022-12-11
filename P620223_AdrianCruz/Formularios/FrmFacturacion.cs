@@ -107,10 +107,122 @@ namespace P620223_AdrianCruz.Formularios
             DialogResult resp = FormBuscarItem.ShowDialog();
             if (resp ==DialogResult.OK)
             {
-                //TODO: Totalizar 
+            
                 DgvLista.DataSource = DtListaItems;
+                DgvLista.ClearSelection();
+                Totalizar();
             }
 
         }
+
+        private void Totalizar()
+        {
+            decimal SubTotal = 0;
+            decimal Descuentos = 0;
+            decimal Impuestos = 0;
+            decimal Total = 0;
+
+            if (DtListaItems.Rows.Count > 0)
+            {
+                foreach (DataRow item in DtListaItems.Rows)
+                {
+                    // el += lo que hace es sumar al vbalor anterior un valor adcional
+                    //sería lo mismo que hacer subtotal = subtotal + algo
+                    SubTotal += Convert.ToDecimal(item["SubTotal"]);
+                    Descuentos += Convert.ToDecimal(item["DescuentoTotal"]);
+                    Impuestos += Convert.ToDecimal(item["ImpuestosTotal"]);
+                    Total += Convert.ToDecimal(item["TotalLinea"]);
+                }
+            }
+
+            TxtSubtotal.Text = string.Format("{0:N2}", SubTotal);
+            TxtDescuentos.Text = string.Format("{0:N2}", Descuentos);
+            TxtImpuestos.Text = string.Format("{0:N2}", Impuestos);
+            TxtTotal.Text = string.Format("{0:N2}", Total);
+        }
+
+        private void BtnCrearFactura_Click(object sender, EventArgs e)
+        {
+            if (ValidarFactura())
+            {
+                //Cuandio tenemos una estructura de encabezado-detalle
+                //Como la factura, primerod ebemos agregar el encabezado
+                //en su tabla respectiva y obtener el ID que se genera en el Primary Key,
+                //luego usando ese ID se recorre la Lista detalle y se hace el insert en 
+                //la tabla de detalle con FK = ID
+
+                MiFacturaLocal.MiFacturaTipo.IDFacturaTipo = Convert.ToInt32(CboxFacturaTipo.SelectedValue);
+                MiFacturaLocal.MiCliente.IDCliente = Convert.ToInt32(TxtClienteID.Text.Trim());
+                //Como el nombre del cliente o el nombre del tipo de factura no son enceasrios para el insert
+                //se pueden omitir en este punto
+
+                MiFacturaLocal.MiUsuario.IdUsuario = Globales.MiUsuarioGlobal.IdUsuario;
+
+                MiFacturaLocal.Notas = TxtNotas.Text.Trim();
+
+                CargarDetalleFactura();
+
+                if(MiFacturaLocal.Agregar()>0)
+                {
+                    MessageBox.Show("Factura procesada correctamente", ":)", MessageBoxButtons.OK);
+
+                    //TODO: Presentar gráficamente un reporte de la ffactura en formato POS(punto de venta)
+
+
+                    Limpiar();
+                }
+
+            }
+        }
+
+        private void CargarDetalleFactura()
+        {
+
+            foreach (DataRow item in DtListaItems.Rows)
+            {
+
+                Logica.Models.FacturaInventario detalle = new Logica.Models.FacturaInventario();
+
+                detalle.MiInventario.IdInventario = Convert.ToInt32(item["IDInventario"]);
+                detalle.Costo = 0; //TODO: deberíamos agregar el valor del costo, se puede hacer por medio de una función
+                detalle.PrecioVenta = Convert.ToDecimal(item["PrecioVenta"]);
+                detalle.Cantidad = Convert.ToDecimal(item["Cantidad"]);
+                detalle.PorcentajeImpuesto = Convert.ToDecimal(item["TasaImpuesto"]);
+
+                detalle.PorcentajeDescuento = Convert.ToDecimal(item["PorcentajeDescuento"]);
+                detalle.SubTotal = Convert.ToDecimal(item["SubTotal"]);
+                detalle.DescuentoTotal = Convert.ToDecimal(item["DescuentoTotal"]);
+                detalle.SubTotal2 = Convert.ToDecimal(item["SubTotal2"]);
+                detalle.ImpuestosTotal = Convert.ToDecimal(item["ImpuestosTotal"]);
+                detalle.TotalLinea = Convert.ToDecimal(item["TotalLinea"]);
+
+                //una vez llenamos los datos del detalle se agrega a la factura local.
+
+                MiFacturaLocal.Detalle.Add(detalle);
+
+            }
+
+        }
+
+
+
+        private bool ValidarFactura()
+        {
+            bool R = false;
+
+            if (!string.IsNullOrEmpty(LblClienteNombre.Text.Trim()) &&
+                CboxFacturaTipo.SelectedIndex > -1 &&
+                DtListaItems.Rows.Count > 0)
+            {
+                R = true;
+            }
+
+            //TODO: validar casos contrarios con el else
+
+            return R;
+
+        }
+
+
     }
 }
